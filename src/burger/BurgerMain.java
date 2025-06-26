@@ -146,7 +146,7 @@ public class BurgerMain {
 
 	// 로그인
 	// 리턴타입 : String 전화번호
-	// 매개변수 : 
+	// 매개변수 : 입력클래스
 	static String login(Scanner sc) {
 		System.out.print("고객 ID (전화번호) : "); // 안내 문구 출력
 		String phoneNumber = sc.nextLine(); // 전화번호 입력
@@ -165,6 +165,9 @@ public class BurgerMain {
 		return phoneNumber;
 	}
 
+	// 주문,환불,로그아웃 선택 메소드
+	// 리턴타입 : int 입력선택값
+	// 매개변수 : 입력클래스
 	static int inputChoice(Scanner sc) {
 		// 주문, 환불 선택을 위한 안내 문구 출력
 		String strSelection = "---선택---\n" + "0. 로그아웃\n" + "1. 주문\n" + "2. 환불\n" + "(숫자 입력)\n" + "---------";
@@ -181,6 +184,9 @@ public class BurgerMain {
 		return choice;
 	}
 
+	// 버거 주문 입력 메소드
+	// 리턴타입 : Burger[] 입력받은버거정보배열
+	// 매개변수 : 입력클래스
 	static Burger[] inputBurgers(Scanner sc) {
 		// 현재 사용자가 주문서에 추가하고 있는 버거 정보 배열
 		Burger[] burgerArr = new Burger[orderManager.MAX_BURGER];
@@ -209,6 +215,9 @@ public class BurgerMain {
 		return initBurgerArr(burgerArr, burgerCnt);
 	}
 
+	// 버거배열 새로 생성하여 반환
+	// 리턴타입 : Burger[] 버거배열
+	// 매개변수 : 버거배열, int 배열길이
 	static Burger[] initBurgerArr(Burger[] burgerArr, int burgerCnt) {
 		if (burgerCnt == 0)
 			return null;
@@ -225,6 +234,8 @@ public class BurgerMain {
 	}
 
 	//주문서에 담길 총 금액 구하는 메소드
+	// 리턴타입 : int 총금액
+	// 매개변수 : Burger[] 금액을 계산하기 위한 버거 배열
 	static int getTotalPrice(Burger[] burgerArr) {
 		if (burgerArr == null)
 			return 0;
@@ -240,7 +251,9 @@ public class BurgerMain {
 		return totalPrice;
 	}
 	
-	//
+	// 환불 성공 여부 출력
+	// 리턴타입 : void
+	// 매개변수 : boolean 환불성공여부
 	static void printSuccessRefund(boolean isSuccess) {
 		if (isSuccess) { // 환불 성공
 			System.out.println("환불 완료");
@@ -249,6 +262,9 @@ public class BurgerMain {
 		}
 	}
 
+	// 환불
+	// 리턴타입 : void
+	// 매개변수 : String 전화번호, 입력클래스
 	static void refund(String phoneNumber, Scanner sc) {
 		// 환불
 		// phoneNumber에 해당하는 고객의 주문서 목록 반환하여 선언한 배열에 대입
@@ -275,6 +291,9 @@ public class BurgerMain {
 		} // 주문서 목록 받아오고 환불 번호 입력 끝
 	}
 
+	// 주문
+	// 리턴타입 : void
+	// 매개변수 : String 전화번호, 입력클래스
 	static void order(String phoneNumber, Scanner sc) {
 		// 주문 시작
 		boolean isDelivery = checkInput("배달 선택", sc); // 배달 여부 선택
