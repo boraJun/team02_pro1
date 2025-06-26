@@ -102,10 +102,15 @@ public class OrderManager {
 	// 리턴타입 : 버거 메뉴 정보
 	// 매개변수 : 버거 id
 	BurgerMenu getBurgerItem(int burgerId) {
-		BurgerMenu bm = new BurgerMenu(burgerId, burgerMenuArr[burgerId].burgerName,
-				burgerMenuArr[burgerId].burgerPrice, burgerMenuArr[burgerId].setPrice);
-
-		return bm;
+		for(int i = 0; i < burgerMenuArr.length; i++) {
+			if(burgerMenuArr[i].burgerId == burgerId)
+				return burgerMenuArr[i];
+		}
+		
+		return null;
+//		BurgerMenu bm = new BurgerMenu(burgerId, burgerMenuArr[burgerId].burgerName,
+//				burgerMenuArr[burgerId].burgerPrice, burgerMenuArr[burgerId].setPrice);
+//		return bm;
 	}
 
 	// 버거 id 배열 반환
@@ -120,11 +125,9 @@ public class OrderManager {
 	// 리턴타입 : boolean 주문가능한지
 	// 매개변수 : x
 	boolean canOrder() {
-		System.out.println("can Order. 입ㅈ앙");
-		if (PurchaseOrder.currentOrderNumber + 1 == MAX_ORDER_COUNT) {
+		if (PurchaseOrder.currentOrderNumber + 1 <= MAX_ORDER_COUNT) {
 			return true;
 		}
-
 		return false;
 	}
 
@@ -132,11 +135,31 @@ public class OrderManager {
 	// 리턴타입 : boolean 판매성공여부
 	// 매개변수 : String 고객구분값, Burger[] 구매하고자하는 버거 정보 배열
 	boolean sell(String phoneNumber, Burger[] burgerList) {
-		PurchaseOrder po = new PurchaseOrder(phoneNumber, burgerList);
+		int customerIdx = isExistCustomer(phoneNumber); // 고객배열Idx
+		if (customerIdx == -1) { // 고객이 없음
+			return false; // 팔수 없음
+		}
 		
-//		customer.addOrder(po.orderNumber);
-		System.out.println(".sell들옴");
+		// 고객이 있으므로 주문서 추가
+		PurchaseOrder po = new PurchaseOrder(phoneNumber, burgerList); // 주문번호
+		customerArr[customerIdx].addOrder(po.orderNumber); // 고객에게 주문번호 알려줌
+
+		totalMoney += po.total;
+
+		purchaseOrderArr[currentOrderCount++] = po;
 		return true;
+	}
+
+	int isExistCustomerNumber(String phoneNumber) {
+		for (int i = 0; i < customerArr.length; i++) {
+			if (customerArr[i] == null) {
+				continue;
+			}
+			if (customerArr[i].phoneNumber.equals(phoneNumber)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 ///////////////////////////환불//////////////////////////////
@@ -191,7 +214,9 @@ public class OrderManager {
 	int isExistCustomerNumber(String phoneNumber, int orderNumber) // 고객에게 주문번호 있는지 확인
 	{// 기존에 구매를 했던 고객인지 확인하는 메소드. 매개변수로 전화번호와 주문번호를 입력해서 확인
 		for (int i = 0; i < customerArr.length; i++) {
-			if (customerArr[i].phoneNumber == phoneNumber) { // 고객 정보의 i번째 인덱스에 입력한 전화번호가 존재한다면 해당 인덱스 반환
+			if(customerArr[i] == null)
+				continue;
+			if (customerArr[i].phoneNumber.equals(phoneNumber)) { // 고객 정보의 i번째 인덱스에 입력한 전화번호가 존재한다면 해당 인덱스 반환
 				// 고객 인스턴스에 주문번호 있는지
 				if (customerArr[i].isExistOrderNumber(orderNumber) == -1)
 					return -1;
@@ -208,6 +233,8 @@ public class OrderManager {
 	int isExistOrderNumber(int orderNumber) { // 관리 시스템에 주문번호 있는지 확인
 		// 기존에 구매를 했던 고객인지 확인하는 메소드. 매개변수로 전화번호와 주문번호를 입력해서 확인
 		for (int i = 0; i < purchaseOrderArr.length; i++) {
+			if(purchaseOrderArr[i] == null)
+				continue;
 			if (purchaseOrderArr[i].orderNumber == orderNumber) {
 				return i;
 			}
@@ -220,14 +247,48 @@ public class OrderManager {
 	// 매개변수 : String 고객구분값
 	PurchaseOrder[] getPurchaseOrder(String phoneNumber) { // burgerList 배열 안에 있는 정보 : 버거종류,버거이름,버거가격,세트여부
 
-		for (int i = 0; i < purchaseOrderArr.length; i++) // 주문서 배열을 순회하며 고객id에 해당하는 인덱스를 만나면 해당 주문서를 리턴하면됨.
-		{
-			if (purchaseOrderArr[i].phoneNumber == phoneNumber) {
-				int burgerIdx = i; // 주문서 배열의 해당 고객의 구매 인덱스를 정수형변수에 저장
-			}
-
+		int customerIdx = isExistCustomer(phoneNumber);// 고객의 전화번호가 존재하는 배열의 인덱스를 반환하는 메소드에서 반환한 값이 -1이라면
+		if (customerIdx == -1) {
+			return null;
 		}
 
-		return BurgerMenu;
+		PurchaseOrder[] resultPurchase = new PurchaseOrder[MAX_ORDER_COUNT];
+		int count = 0;
+		for (int i = 0; i < purchaseOrderArr.length; i++) {
+			if (purchaseOrderArr[i] == null)
+				continue;
+			if (purchaseOrderArr[i].phoneNumber.equals(phoneNumber))
+				resultPurchase[count++] = purchaseOrderArr[i];
+		}
+
+		if (count == 0) {
+			return null;
+		}
+		return resultPurchase;
 	}
+	/*
+	 * int[] orderNumberArr = customerArr[customerIdx].orderNumberArr;
+	 * 
+	 * int count = 0;
+	 * 
+	 * for (int i = 0; i < orderNumberArr.length; i++) { if(orderNumberArr[i] == -1)
+	 * { continue; }
+	 * 
+	 * for(int j = 0; j < purchaseOrderArr.length; j++) { if(purchaseOrderArr[j] ==
+	 * null) continue;
+	 * 
+	 * if(purchaseOrderArr[j].orderNumber == orderNumberArr[i]) {
+	 * resultPurchase[count++] = purchaseOrderArr[j]; } } }
+	 * 
+	 * if(count == 0) return null;
+	 * 
+	 * return resultPurchase;
+	 */
+//				for (int i = 0; i < purchaseOrderArr.length; i++) // 주문서 배열을 순회하며 고객id에 해당하는 인덱스를 만나면 해당 주문서를 리턴하면됨.
+//		{
+//			if (purchaseOrderArr[i].phoneNumber.equals(phoneNumber)) { // 주문서 배열에는 고객의 전화번호, 버거 주문정보가 담겨있음.
+//				;// 주문서 배열의 해당 고객 인덱스를 발견하면, 해당 주문서배열의 인덱스 반환 
+//			}
+//		}
+	// return null;
 }

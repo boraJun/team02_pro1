@@ -15,14 +15,12 @@ public class PurchaseOrder {
 		PurchaseOrder.currentOrderNumber++; // 다음 주문 번호로 변경
 		// 주문 번호 대입
 		this.orderNumber = PurchaseOrder.currentOrderNumber;
-		System.out.println(this.orderNumber);
 		
 		// 전화번호 대입
 		this.phoneNumber = phoneNumber;
 		
 		// 버거 주문 번호 초기화
 		initBurgerList(burgerList);
-		
 		
 		// 계산한 총 가격 대입
 		this.total = calculateTotal();
