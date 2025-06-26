@@ -22,9 +22,9 @@ public class OrderManager {
 	// 기본생성자 구현
 	public OrderManager() {
 		// 상수 초기화
-		MAX_ORDER_COUNT = 5;
+		MAX_ORDER_COUNT = 3;
 		MIN_ORDER_AMOUNT = 12000;
-		MAX_BURGER = 10;
+		MAX_BURGER = 5;
 
 		// 인스턴스 변수 초기화
 		currentOrderCount = 0;
@@ -45,13 +45,8 @@ public class OrderManager {
 	// 남혁 : 환불
 	// 보라 : 배달여부, 고객 관련
 
-	
-	
 ///////////////////////////배달//////////////////////////////
 
-	
-	
-	
 // 고객배달(); // 고객 배달 // 최소금액확인 //민경승
 // 리턴타입 : boolean 배달 가능 여부
 // 매개변수 : int 총구매액
@@ -62,15 +57,8 @@ public class OrderManager {
 		return true; // 성공
 	}
 
-	
-	
-	
 ///////////////////////////고객 관련//////////////////////////////
 
-	
-	
-
-	
 	// 고객 조회
 	// 리턴타입 : int 고객의 배열 인덱스 값
 	// 매개변수 : String 전화번호
@@ -84,7 +72,7 @@ public class OrderManager {
 
 		// 고객 배열만큼 반복
 		for (int i = 0; i < customerArr.length; i++) {
-			if(customerArr[i] == null) // 고객 정보가 비어있으면 
+			if (customerArr[i] == null) // 고객 정보가 비어있으면
 				continue; // 다음 고객 배열 값 조회
 			if (customerArr[i].phoneNumber.equals(phoneNumber)) // 전화번호가 이미 등록되어 있으면
 				return i; // 해당 고객의 배열 인덱스 값 반환
@@ -108,43 +96,35 @@ public class OrderManager {
 		return false; // 이미 사용자가 존재함, 실패 반환
 	}
 
-	
-	
-	
-	
-	
 ///////////////////////////주문, 판매//////////////////////////////
 
-	
-	
-	
-	
-	
 	// 버거 id를 통해 버거 메뉴 정보를 조회
 	// 리턴타입 : 버거 메뉴 정보
 	// 매개변수 : 버거 id
 	BurgerMenu getBurgerItem(int burgerId) {
-		BurgerMenu bm = new BurgerMenu(burgerId, burgerMenuArr[burgerId].burgerName, burgerMenuArr[burgerId].burgerPrice, burgerMenuArr[burgerId].setPrice);
-		currentOrderCount++;
+		BurgerMenu bm = new BurgerMenu(burgerId, burgerMenuArr[burgerId].burgerName,
+				burgerMenuArr[burgerId].burgerPrice, burgerMenuArr[burgerId].setPrice);
+
 		return bm;
 	}
 
 	// 버거 id 배열 반환
 	// 리턴타입 : int[] 버거메뉴아이디배열
 	// 매개변수 : x
-	
+
 //	int[] getBurgerMenuIdArr() {
 //		return null;
 //	}
-	
 
 	// 주문 // 주문서 확인 // 황승우 //주문 가능한지 확인 갯수
 	// 리턴타입 : boolean 주문가능한지
 	// 매개변수 : x
 	boolean canOrder() {
-		if(PurchaseOrder.currentOrderNumber+1==MAX_ORDER_COUNT) {
+		System.out.println("can Order. 입ㅈ앙");
+		if (PurchaseOrder.currentOrderNumber + 1 == MAX_ORDER_COUNT) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -152,23 +132,15 @@ public class OrderManager {
 	// 리턴타입 : boolean 판매성공여부
 	// 매개변수 : String 고객구분값, Burger[] 구매하고자하는 버거 정보 배열
 	boolean sell(String phoneNumber, Burger[] burgerList) {
+		PurchaseOrder po = new PurchaseOrder(phoneNumber, burgerList);
 		
-		return false;
+//		customer.addOrder(po.orderNumber);
+		System.out.println(".sell들옴");
+		return true;
 	}
 
-	
-	
-	
-	
-	
-	
 ///////////////////////////환불//////////////////////////////
 
-	
-	
-	
-	
-	
 	// 환불 // 주문서 삭제 // 고객에 있는 주문아이디 삭제 //이남혁
 	// 리턴타입 : boolean
 	// 매개변수 : String 고객구분값, int 주문번호
