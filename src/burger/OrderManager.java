@@ -130,11 +130,33 @@ public class OrderManager {
 	// 리턴타입 : boolean 판매성공여부
 	// 매개변수 : String 고객구분값, Burger[] 구매하고자하는 버거 정보 배열
 	boolean sell(String phoneNumber, Burger[] burgerList) {
-		PurchaseOrder po = new PurchaseOrder(phoneNumber, burgerList);
-		
-//		customer.addOrder(po.orderNumber);
 		System.out.println(".sell들옴");
+
+		int customerIdx = isExistCustomer(phoneNumber); // 고객배열Idx
+		if (customerIdx == -1) {// 고객이 없음
+			return false; // 팔수 있음
+		}
+
+		// 고객이 있으므로 주문서 추가
+		PurchaseOrder po = new PurchaseOrder(phoneNumber, burgerList); // 주문번호
+		customerArr[customerIdx].addOrder(po.orderNumber); // 고객에게 주문번호 알려줌
+
+		totalMoney += po.total;
+
+		purchaseOrderArr[currentOrderCount++] = po;
 		return true;
+	}
+
+	int isExistCustomerNumber(String phoneNumber) {
+		for (int i = 0; i < customerArr.length; i++) {
+			if (customerArr[i] == null) {
+				continue;
+			}
+			if (customerArr[i].phoneNumber == phoneNumber) {
+				return i;
+			}
+		}
+		return -1;
 	}
 
 ///////////////////////////환불//////////////////////////////
