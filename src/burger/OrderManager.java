@@ -102,7 +102,8 @@ public class OrderManager {
 	// 리턴타입 : 버거 메뉴 정보
 	// 매개변수 : 버거 id
 	BurgerMenu getBurgerItem(int burgerId) {
-		BurgerMenu bm = new BurgerMenu(burgerId, burgerMenuArr[burgerId].burgerName, burgerMenuArr[burgerId].burgerPrice, burgerMenuArr[burgerId].setPrice);
+		BurgerMenu bm = new BurgerMenu(burgerId, burgerMenuArr[burgerId].burgerName,
+				burgerMenuArr[burgerId].burgerPrice, burgerMenuArr[burgerId].setPrice);
 		currentOrderCount++;
 		return bm;
 	}
@@ -110,17 +111,16 @@ public class OrderManager {
 	// 버거 id 배열 반환
 	// 리턴타입 : int[] 버거메뉴아이디배열
 	// 매개변수 : x
-	
+
 //	int[] getBurgerMenuIdArr() {
 //		return null;
 //	}
-	
 
 	// 주문 // 주문서 확인 // 황승우 //주문 가능한지 확인 갯수
 	// 리턴타입 : boolean 주문가능한지
 	// 매개변수 : x
 	boolean canOrder() {
-		if(PurchaseOrder.currentOrderNumber+1==MAX_ORDER_COUNT) {
+		if (PurchaseOrder.currentOrderNumber + 1 == MAX_ORDER_COUNT) {
 			return true;
 		}
 		return false;
@@ -130,7 +130,7 @@ public class OrderManager {
 	// 리턴타입 : boolean 판매성공여부
 	// 매개변수 : String 고객구분값, Burger[] 구매하고자하는 버거 정보 배열
 	boolean sell(String phoneNumber, Burger[] burgerList) {
-		
+
 		return false;
 	}
 
@@ -140,32 +140,35 @@ public class OrderManager {
 	// 리턴타입 : boolean
 	// 매개변수 : String 고객구분값, int 주문번호
 	boolean refund(String phoneNumber, int orderNumber) {
-		   	// int[] canRefund(String phoneNumber, int orderNumber)에서 반환된 값 : 
-			// isExistCustomerNumber(String phoneNumber, int orderNumber)에서 반환된 값
-			// isExistCustomerNumber(String phoneNumber, int orderNumber)
-			// isExistOrderNumber(int orderNumber)
-			// PurchaseOrder[] getPurchaseOrder(String phoneNumber)
-		int custIdx = isExistCustomerNumber(phoneNumber,orderNumber); // 해당 고객의 주문서 내 전화번호 인덱스
-		int ordIdx = isExistOrderNumber(orderNumber); // 해당 고객의 고객배열 내 고객번호 인덱스
-				if (custIdx != -1 && ordIdx != -1) {
-					int refundCash = burgerMenuArr[custIdx].burgerPrice ;//버거지불금액.
-					// 총매출 -= 해당환불금액
-					totalMoney -= refundCash; // 총매출에서 환불금액만큼을 누적해서 뺌.
-					
-					// 주문서 삭제
-					// 해당 인덱스에 해당하는 값에 null 넣기. 주문서에는 주문번호(String)와 버거리스트(Burger)가 존재함
-					// PurchaseOrder(String phoneNumber, Burger[] burgerList)
-					PurchaseOrder(phoneNumber, burgerList[]);
-					
-					System.out.printf("\"%d\"번 주문번호의 환불이 완료되었습니다.", ordIdx);
-					return true;
-					
+		// int[] canRefund(String phoneNumber, int orderNumber)에서 반환된 값 :
+		// isExistCustomerNumber(String phoneNumber, int orderNumber)에서 반환된 값
+		// isExistCustomerNumber(String phoneNumber, int orderNumber)
+		// isExistOrderNumber(int orderNumber)
+		// PurchaseOrder[] getPurchaseOrder(String phoneNumber)
+		int custIdx = isExistCustomerNumber(phoneNumber, orderNumber); // 고객 배열의 해당 고객 인덱스
+		int ordIdx = isExistOrderNumber(orderNumber); // 주문 배열의 해당 주문 인덱스
+		if (custIdx != -1 && ordIdx != -1) {
+			int refundCash = purchaseOrderArr[ordIdx].total;// 버거지불금액.
+			// 총매출 -= 해당환불금액
+			totalMoney -= refundCash; // 총매출에서 환불금액만큼을 누적해서 뺌.
+
+			// 주문서 삭제
+			// PurchaseOrder(String phoneNumber, Burger[] burgerList)
+			// 해당 인덱스에 해당하는 값에 null 넣기. 주문서에는 주문번호(String)와 버거리스트(Burger)가 존재함
+			purchaseOrderArr[ordIdx] = null; // 주문서의 주문번호 비우기.
+			customerArr[custIdx].refundOrder(orderNumber); // 고객 배열의 고객 정보 비우기.
+
+			System.out.printf("환불이 완료되었습니다.");
+			return true;
+		} else {
 			System.out.println("환불할 주문이 존재하지 않습니다.");
-			return false;
+		}
+		return false;
+
 	}
 
 	// 환불 가능한지 여부 반환
-	// 리턴타입 : int 0번 : 주문서배열의 인덱스, 1번 : 고객배열의 인덱스 => 
+	// 리턴타입 : int 0번 : 주문서배열의 인덱스, 1번 : 고객배열의 인덱스 =>
 	// 매개변수 : String 고객구분값, int 주문번호
 	int canRefund(String phoneNumber, int orderNumber) {
 		int orderArrIdx = isExistOrderNumber(orderNumber); // 주문번호가 일치하는 주문서배열의 인덱스 -> 주문서 인스턴스
@@ -184,12 +187,12 @@ public class OrderManager {
 	{// 기존에 구매를 했던 고객인지 확인하는 메소드. 매개변수로 전화번호와 주문번호를 입력해서 확인
 		for (int i = 0; i < customerArr.length; i++) {
 			if (customerArr[i].phoneNumber == phoneNumber) { // 고객 정보의 i번째 인덱스에 입력한 전화번호가 존재한다면 해당 인덱스 반환
-				//고객 인스턴스에 주문번호 있는지
-				if(customerArr[i].isExistOrderNumber(orderNumber) == -1)
+				// 고객 인스턴스에 주문번호 있는지
+				if (customerArr[i].isExistOrderNumber(orderNumber) == -1)
 					return -1;
-				
+
 				return i; // 환불하고자하는 고객의 전화번호(id)인덱스 반환
-			} 
+			}
 		}
 		return -1;
 	}
@@ -199,27 +202,27 @@ public class OrderManager {
 	// 매개변수 : int 주문번호
 	int isExistOrderNumber(int orderNumber) { // 관리 시스템에 주문번호 있는지 확인
 		// 기존에 구매를 했던 고객인지 확인하는 메소드. 매개변수로 전화번호와 주문번호를 입력해서 확인
-		for(int i = 0; i < purchaseOrderArr.length; i++) {
-			if(purchaseOrderArr[i].orderNumber == orderNumber){
+		for (int i = 0; i < purchaseOrderArr.length; i++) {
+			if (purchaseOrderArr[i].orderNumber == orderNumber) {
 				return i;
 			}
 		}
 		return -1;
 	}
-	
+
 	// 주문리스트조회(고객정보)
 	// 리턴타입 : PurchaseOrder[] 주문서 배열 반환
 	// 매개변수 : String 고객구분값
 	PurchaseOrder[] getPurchaseOrder(String phoneNumber) { // burgerList 배열 안에 있는 정보 : 버거종류,버거이름,버거가격,세트여부
-		
-		for(int i = 0; i < purchaseOrderArr.length; i++) // 주문서 배열을 순회하며 고객id에 해당하는 인덱스를 만나면 해당 주문서를 리턴하면됨.
+
+		for (int i = 0; i < purchaseOrderArr.length; i++) // 주문서 배열을 순회하며 고객id에 해당하는 인덱스를 만나면 해당 주문서를 리턴하면됨.
 		{
-			if(purchaseOrderArr[i].phoneNumber == phoneNumber) {
+			if (purchaseOrderArr[i].phoneNumber == phoneNumber) {
 				int burgerIdx = i; // 주문서 배열의 해당 고객의 구매 인덱스를 정수형변수에 저장
 			}
-			
+
 		}
-		
-		return BurgerMenu ;
+
+		return BurgerMenu;
 	}
 }
