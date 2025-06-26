@@ -120,11 +120,9 @@ public class OrderManager {
 	// 리턴타입 : boolean 주문가능한지
 	// 매개변수 : x
 	boolean canOrder() {
-		System.out.println("can Order. 입ㅈ앙");
-		if (PurchaseOrder.currentOrderNumber + 1 == MAX_ORDER_COUNT) {
+		if (PurchaseOrder.currentOrderNumber + 1 < MAX_ORDER_COUNT) {
 			return true;
 		}
-
 		return false;
 	}
 
