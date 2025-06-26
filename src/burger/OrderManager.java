@@ -17,10 +17,12 @@ public class OrderManager {
 	int currentCustomerCount; // 현재 고객 수
 	Customer[] customerArr; // 고객 정보 배열
 
+	private BurgerMenu intBurgerMenu;
+
 	// 기본생성자 구현
 	public OrderManager() {
 		// 상수 초기화
-		MAX_ORDER_COUNT = 10;
+		MAX_ORDER_COUNT = 5;
 		MIN_ORDER_AMOUNT = 12000;
 		MAX_BURGER = 10;
 
@@ -122,20 +124,28 @@ public class OrderManager {
 	// 리턴타입 : 버거 메뉴 정보
 	// 매개변수 : 버거 id
 	BurgerMenu getBurgerItem(int burgerId) {
-		return null;
+		BurgerMenu bm = new BurgerMenu(burgerId, burgerMenuArr[burgerId].burgerName, burgerMenuArr[burgerId].burgerPrice, burgerMenuArr[burgerId].setPrice);
+		currentOrderCount++;
+		System.out.println(currentOrderCount);
+		return bm;
 	}
 
 	// 버거 id 배열 반환
 	// 리턴타입 : int[] 버거메뉴아이디배열
 	// 매개변수 : x
-	int[] getBurgerMenuIdArr() {
-		return null;
-	}
+	
+//	int[] getBurgerMenuIdArr() {
+//		return null;
+//	}
+	
 
 	// 주문 // 주문서 확인 // 황승우 //주문 가능한지 확인 갯수
 	// 리턴타입 : boolean 주문가능한지
 	// 매개변수 : x
 	boolean canOrder() {
+		if(PurchaseOrder.currentOrderNumber+1==MAX_ORDER_COUNT) {
+			return true;
+		}
 		return false;
 	}
 
