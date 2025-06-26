@@ -72,7 +72,7 @@ public class BurgerMain {
 			}
 
 			int burgerId = Integer.parseInt(input); // 숫자인지 판단 필요
-			burgerMenu = orderManager.getBurgerItem(burgerId);
+			burgerMenu = orderManager.(burgerId);
 
 			if (burgerMenu == null) {
 				System.out.println("잘못된 입력입니다. 다시 입력해주세요.");

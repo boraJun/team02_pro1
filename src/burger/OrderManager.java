@@ -122,7 +122,8 @@ public class OrderManager {
 	// 리턴타입 : 버거 메뉴 정보
 	// 매개변수 : 버거 id
 	BurgerMenu getBurgerItem(int burgerId) {
-		return null;
+		BurgerMenu bm = new BurgerMenu(burgerId, burgerMenuArr[burgerId].burgerName, burgerMenuArr[burgerId].burgerPrice, burgerMenuArr[burgerId].setPrice);
+		return bm;
 	}
 
 	// 버거 id 배열 반환
@@ -136,6 +137,7 @@ public class OrderManager {
 	// 리턴타입 : boolean 주문가능한지
 	// 매개변수 : x
 	boolean canOrder() {
+		
 		return false;
 	}
 
@@ -143,6 +145,7 @@ public class OrderManager {
 	// 리턴타입 : boolean 판매성공여부
 	// 매개변수 : String 고객구분값, Burger[] 구매하고자하는 버거 정보 배열
 	boolean sell(String phoneNumber, Burger[] burgerList) {
+		
 		return false;
 	}
 
