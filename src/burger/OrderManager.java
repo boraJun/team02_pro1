@@ -131,7 +131,7 @@ public class OrderManager {
 	// 매개변수 : String 고객구분값, Burger[] 구매하고자하는 버거 정보 배열
 	boolean sell(String phoneNumber, Burger[] burgerList) {
 		PurchaseOrder po = new PurchaseOrder(phoneNumber, burgerList);
-		
+
 //		customer.addOrder(po.orderNumber);
 		System.out.println(".sell들옴");
 		return true;
@@ -218,12 +218,48 @@ public class OrderManager {
 	// 매개변수 : String 고객구분값
 	PurchaseOrder[] getPurchaseOrder(String phoneNumber) { // burgerList 배열 안에 있는 정보 : 버거종류,버거이름,버거가격,세트여부
 
-		for (int i = 0; i < purchaseOrderArr.length; i++) // 주문서 배열을 순회하며 고객id에 해당하는 인덱스를 만나면 해당 주문서를 리턴하면됨.
-		{
-			if (purchaseOrderArr[i].phoneNumber.equals(phoneNumber)) { // 주문서 배열에는 고객의 전화번호, 버거 주문정보가 담겨있음.
-				return purchaseOrderArr;// 주문서 배열의 해당 고객 인덱스를 발견하면, 해당 주문서배열의 인덱스 반환 
-			}
+		int customerIdx = isExistCustomer(phoneNumber);// 고객의 전화번호가 존재하는 배열의 인덱스를 반환하는 메소드에서 반환한 값이 -1이라면
+		if (customerIdx == -1) {
+			return null;
 		}
-		return null;
+
+		PurchaseOrder[] resultPurchase = new PurchaseOrder[MAX_ORDER_COUNT];
+		int count = 0;
+		for (int i = 0; i < purchaseOrderArr.length; i++) {
+			if (purchaseOrderArr[i] == null)
+				continue;
+			if (purchaseOrderArr[i].phoneNumber == phoneNumber)
+				resultPurchase[count++] = purchaseOrderArr[i];
+		}
+
+		if (count == 0)
+			return null;
+
+		return resultPurchase;
 	}
+	/*
+	 * int[] orderNumberArr = customerArr[customerIdx].orderNumberArr;
+	 * 
+	 * int count = 0;
+	 * 
+	 * for (int i = 0; i < orderNumberArr.length; i++) { if(orderNumberArr[i] == -1)
+	 * { continue; }
+	 * 
+	 * for(int j = 0; j < purchaseOrderArr.length; j++) { if(purchaseOrderArr[j] ==
+	 * null) continue;
+	 * 
+	 * if(purchaseOrderArr[j].orderNumber == orderNumberArr[i]) {
+	 * resultPurchase[count++] = purchaseOrderArr[j]; } } }
+	 * 
+	 * if(count == 0) return null;
+	 * 
+	 * return resultPurchase;
+	 */
+//				for (int i = 0; i < purchaseOrderArr.length; i++) // 주문서 배열을 순회하며 고객id에 해당하는 인덱스를 만나면 해당 주문서를 리턴하면됨.
+//		{
+//			if (purchaseOrderArr[i].phoneNumber.equals(phoneNumber)) { // 주문서 배열에는 고객의 전화번호, 버거 주문정보가 담겨있음.
+//				;// 주문서 배열의 해당 고객 인덱스를 발견하면, 해당 주문서배열의 인덱스 반환 
+//			}
+//		}
+	// return null;
 }
