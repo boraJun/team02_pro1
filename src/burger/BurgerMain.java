@@ -46,7 +46,7 @@ public class BurgerMain {
 	// 매개변수 : String 안내문구, 입력클래스
 	static boolean checkInput(String str, Scanner sc) {
 		while (true) {
-			System.out.println(str + "(y/n) : ");
+			System.out.print(str + "(y/n) : ");
 			String input = sc.nextLine();
 
 			if (input.equals("y") || input.equals("Y"))
