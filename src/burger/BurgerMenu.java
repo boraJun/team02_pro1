@@ -17,6 +17,7 @@ public class BurgerMenu {
 		this.burgerPrice = burgerPrice;
 		this.setPrice = setPrice;
 	}
+	
 
 	// 가격 정보 반환
 	// 리턴 타입 : int 가격
