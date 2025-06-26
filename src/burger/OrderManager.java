@@ -220,12 +220,10 @@ public class OrderManager {
 
 		for (int i = 0; i < purchaseOrderArr.length; i++) // 주문서 배열을 순회하며 고객id에 해당하는 인덱스를 만나면 해당 주문서를 리턴하면됨.
 		{
-			if (purchaseOrderArr[i].phoneNumber == phoneNumber) {
-				int burgerIdx = i; // 주문서 배열의 해당 고객의 구매 인덱스를 정수형변수에 저장
+			if (purchaseOrderArr[i].phoneNumber.equals(phoneNumber)) { // 주문서 배열에는 고객의 전화번호, 버거 주문정보가 담겨있음.
+				return purchaseOrderArr;// 주문서 배열의 해당 고객 인덱스를 발견하면, 해당 주문서배열의 인덱스 반환 
 			}
-
 		}
-
-		return BurgerMenu;
+		return null;
 	}
 }
