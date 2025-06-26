@@ -126,7 +126,6 @@ public class OrderManager {
 	BurgerMenu getBurgerItem(int burgerId) {
 		BurgerMenu bm = new BurgerMenu(burgerId, burgerMenuArr[burgerId].burgerName, burgerMenuArr[burgerId].burgerPrice, burgerMenuArr[burgerId].setPrice);
 		currentOrderCount++;
-		System.out.println(currentOrderCount);
 		return bm;
 	}
 
@@ -153,6 +152,7 @@ public class OrderManager {
 	// 리턴타입 : boolean 판매성공여부
 	// 매개변수 : String 고객구분값, Burger[] 구매하고자하는 버거 정보 배열
 	boolean sell(String phoneNumber, Burger[] burgerList) {
+		
 		return false;
 	}
 
