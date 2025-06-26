@@ -54,7 +54,10 @@ public class OrderManager {
 // 리턴타입 : boolean 배달 가능 여부
 // 매개변수 : int 총구매액
 	boolean deliver(int total) {
-		return true;
+		if (total < MIN_ORDER_AMOUNT) // 최소 배달 주문 금액 보다 매개 변수로 전달받은 총 구매 액이 작을 때
+			return false; // 실패
+
+		return true; // 성공
 	}
 
 	
@@ -70,14 +73,37 @@ public class OrderManager {
 	// 리턴타입 : int 고객의 배열 인덱스 값
 	// 매개변수 : String 전화번호
 	int isExistCustomer(String phoneNumber) {
-		return -1;
+		if (customerArr == null) // 생성자에서 배열 생성해주므로 우선 null 아닐 경우만 예외처리
+		{
+			// 배열 생성
+			customerArr = new Customer[MAX_ORDER_COUNT];
+			return -1; // 오류 값 반환
+		}
+
+		// 고객 배열만큼 반복
+		for (int i = 0; i < customerArr.length; i++) {
+			if(customerArr[i] == null) // 고객 정보가 비어있으면 
+				continue; // 다음 고객 배열 값 조회
+			if (customerArr[i].phoneNumber.equals(phoneNumber)) // 전화번호가 이미 등록되어 있으면
+				return i; // 해당 고객의 배열 인덱스 값 반환
+		}
+
+		return -1; // 오류 값 반환 - 고객 정보 없음
 	}
 
 	// 고객 등록
 	// 리턴타입 : boolean 추가성공여부
 	// 매개변수 : Customer 고객정보
 	boolean addCustomer(Customer customer) {
-		return false;
+		if (isExistCustomer(customer.phoneNumber) == -1) // 존재하지 않는 사용자
+		{
+			// 사용자 추가
+			this.customerArr[currentCustomerCount++] = new Customer(customer.name, customer.address,
+					customer.phoneNumber, MAX_ORDER_COUNT);
+			return true; // 추가 성공 반환
+		}
+
+		return false; // 이미 사용자가 존재함, 실패 반환
 	}
 
 	
