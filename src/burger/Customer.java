@@ -6,7 +6,7 @@ public class Customer {
 	String address; // 주소
 	String phoneNumber; // 전화번호
 
-	int[] orderNumberArr; // 주문 번호 배열
+	int[] orderNumberArr; // 주문 번호 배열OrderNumber
 
 	// 생성자
 	public Customer(String name, String address, String phoneNumber) {
@@ -26,6 +26,7 @@ public class Customer {
 		// orderNumberArr 초기화
 		initOrderNumberArr(orderMaxCount);
 	}
+
 
 	// orderNumberArr 초기화
 	// 리턴타입 : void

@@ -22,9 +22,9 @@ public class OrderManager {
 	// 기본생성자 구현
 	public OrderManager() {
 		// 상수 초기화
-		MAX_ORDER_COUNT = 5;
+		MAX_ORDER_COUNT = 3;
 		MIN_ORDER_AMOUNT = 12000;
-		MAX_BURGER = 10;
+		MAX_BURGER = 5;
 
 		// 인스턴스 변수 초기화
 		currentOrderCount = 0;
@@ -104,7 +104,11 @@ public class OrderManager {
 	BurgerMenu getBurgerItem(int burgerId) {
 		BurgerMenu bm = new BurgerMenu(burgerId, burgerMenuArr[burgerId].burgerName,
 				burgerMenuArr[burgerId].burgerPrice, burgerMenuArr[burgerId].setPrice);
+<<<<<<< HEAD
 		currentOrderCount++;
+=======
+
+>>>>>>> e378197a364f17771ef0c3fec9315c08385f5c2e
 		return bm;
 	}
 
@@ -120,9 +124,14 @@ public class OrderManager {
 	// 리턴타입 : boolean 주문가능한지
 	// 매개변수 : x
 	boolean canOrder() {
+<<<<<<< HEAD
+=======
+		System.out.println("can Order. 입ㅈ앙");
+>>>>>>> e378197a364f17771ef0c3fec9315c08385f5c2e
 		if (PurchaseOrder.currentOrderNumber + 1 == MAX_ORDER_COUNT) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -130,8 +139,16 @@ public class OrderManager {
 	// 리턴타입 : boolean 판매성공여부
 	// 매개변수 : String 고객구분값, Burger[] 구매하고자하는 버거 정보 배열
 	boolean sell(String phoneNumber, Burger[] burgerList) {
+<<<<<<< HEAD
 
 		return false;
+=======
+		PurchaseOrder po = new PurchaseOrder(phoneNumber, burgerList);
+		
+//		customer.addOrder(po.orderNumber);
+		System.out.println(".sell들옴");
+		return true;
+>>>>>>> e378197a364f17771ef0c3fec9315c08385f5c2e
 	}
 
 ///////////////////////////환불//////////////////////////////
