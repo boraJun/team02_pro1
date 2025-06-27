@@ -129,12 +129,10 @@ public class BurgerMain {
 		}
 	}
 
-	// 주문 번호 입력
-	// 리턴타입 : int 주문번호
-	// 매개변수 : 입력클래스
-	static int getInputOrderNumber(Scanner sc) {
-		String input = sc.nextLine();
-
+	// String -> integer
+	// 리턴타입 : int 형변환값
+	// 매개변수 : String
+	static int parseInteger(String input) {
 		for (int i = 0; i < input.length(); i++) {
 			if (input.charAt(i) < '0' || input.charAt(i) > '9') {
 				return -1;
@@ -173,12 +171,17 @@ public class BurgerMain {
 		String strSelection = "---선택---\n" + "0. 로그아웃\n" + "1. 주문\n" + "2. 환불\n" + "(숫자 입력)\n" + "---------";
 		int choice = -1; // 주문, 환불 정보(주문 : 1, 환불 : 2)
 
-		do { // 주문,환불 선택을 위한 반복문 시작
+		while (true) { // 주문,환불 선택을 위한 반복문 시작
 			System.out.println(strSelection); // 주문,환불 선택 출력
-			choice = sc.nextInt(); // 주문, 환불 선택 정보 입력
-			sc.nextLine(); // 버퍼 소모
+			choice = parseInteger(sc.nextLine()); // 주문, 환불 선택 정보 입력
+			
+			if(choice == InputType.ORDER.type || choice == InputType.REFUND.type || choice == InputType.LOGOUT.type)
+				break;
+			else {
+				System.out.println("잘못된 입력입니다.");
+			}
 			// 주문,환불 선택을 위한 반복문 끝
-		} while (choice != InputType.ORDER.type && choice != InputType.REFUND.type && choice != InputType.LOGOUT.type);
+		}
 		// 주문
 
 		return choice;
@@ -280,7 +283,7 @@ public class BurgerMain {
 
 			System.out.print("환불하고자 하는 주문 번호 입력 : ");
 			// 주문 번호
-			int orderNumber = getInputOrderNumber(sc);
+			int orderNumber = parseInteger(sc.nextLine());
 
 			if (orderNumber != -1) {
 				// 환불 메소드 호출
