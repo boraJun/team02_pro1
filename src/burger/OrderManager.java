@@ -17,8 +17,6 @@ public class OrderManager {
 	int currentCustomerCount; // 현재 고객 수
 	Customer[] customerArr; // 고객 정보 배열
 
-	private BurgerMenu intBurgerMenu;
-
 	// 기본생성자 구현
 	public OrderManager() {
 		// 상수 초기화
